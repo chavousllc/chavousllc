@@ -1,0 +1,176 @@
+// Prisma schema for the Chavous Transportation LLC site.
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}
+
+// Singleton row (id always "main") holding all editable site copy/contact info.
+model CompanyProfile {
+  id             String   @id @default("main")
+  companyName    String   @default("Chavous Transportation LLC")
+  heroHeadline   String   @default("Reliable Freight Transportation, Coast to Coast")
+  heroSubtext    String   @default("Chavous Transportation LLC moves freight across the continental United States with a modern fleet and a safety-first team you can count on.")
+  aboutText      String   @default("Chavous Transportation LLC is a mid-size carrier built on reliability, safety, and communication. Our team of experienced drivers and dispatchers works around the clock to keep your freight moving on time, every time.")
+  foundingYear   Int      @default(2016)
+  fleetSize      Int      @default(35)
+  dotNumber      String   @default("U.S. DOT# 3872584")
+  mcNumber       String   @default("MC-1418287-C")
+  phone          String   @default("+1 (513) 988-7357")
+  email          String   @default("dispatch@chavousllc.com")
+  dispatchHours  String   @default("8:00 AM – 5:00 PM EST")
+  address        String   @default("1112 Harper Dr, Warminster, PA 18974")
+  coverageStates String[] @default(["AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"])
+  updatedAt      DateTime @updatedAt
+}
+
+enum ServiceCategory {
+  DRY_VAN
+  FTL
+  PARTIAL_TRUCKLOAD
+  LTL
+  EXPEDITED
+  DEDICATED_LANES
+  DISPATCH_TRACKING
+}
+
+model Service {
+  id          String          @id @default(cuid())
+  title       String
+  description String
+  icon        String          @default("truck")
+  category    ServiceCategory
+  featured    Boolean         @default(false)
+  sortOrder   Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+enum SubmissionStatus {
+  NEW
+  REVIEWED
+  CONTACTED
+  ARCHIVED
+}
+
+model DriverApplication {
+  id       String           @id @default(cuid())
+  status   SubmissionStatus @default(NEW)
+
+  // Applicant
+  fullName       String
+  email          String
+  phone          String
+  address        String
+  city           String
+  state          String
+  zip            String
+  dateOfBirth    DateTime
+
+  // Position
+  positionAppliedFor String
+  availabilityDate   DateTime
+  desiredRoutes      String
+  willingToTravel    Boolean @default(true)
+  eligibleToWork     Boolean @default(true)
+
+  // CDL / experience
+  cdlNumber        String
+  cdlState         String
+  cdlClass         String
+  cdlEndorsements  String  @default("")
+  cdlExpiration    DateTime
+  yearsExperience  Int
+  equipmentOperated String
+
+  // History
+  employmentHistory String // JSON string of prior employers (last 3 years)
+  hadAccidents      Boolean
+  accidentsExplain  String @default("")
+  hadViolations     Boolean
+  violationsExplain String @default("")
+  references        String // JSON string of reference contacts
+
+  // Consent / signature
+  consentBackgroundCheck Boolean
+  signatureName          String
+  signatureDate          DateTime
+
+  pdfData     Bytes?
+  pdfFileName String?
+
+  submittedAt DateTime @default(now())
+}
+
+enum EquipmentType {
+  DRY_VAN
+  REEFER
+  FLATBED
+  EXPEDITED
+}
+
+enum LoadType {
+  FTL
+  LTL
+}
+
+model QuoteRequest {
+  id     String           @id @default(cuid())
+  status SubmissionStatus @default(NEW)
+
+  shipperCompany String
+  contactName    String
+  email          String
+  phone          String
+
+  originCity      String
+  originState     String
+  destCity        String
+  destState       String
+  pickupDate      DateTime
+
+  equipmentType EquipmentType
+  loadType      LoadType
+  weight        Int
+  commodity     String
+  notes         String @default("")
+
+  submittedAt DateTime @default(now())
+}
+
+model ContactMessage {
+  id     String           @id @default(cuid())
+  status SubmissionStatus @default(NEW)
+
+  name    String
+  email   String
+  phone   String @default("")
+  message String
+
+  submittedAt DateTime @default(now())
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  referrer  String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+}

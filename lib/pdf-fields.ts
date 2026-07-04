@@ -1,0 +1,62 @@
+// Central registry of AcroForm field names shared between the template
+// generator (scripts/generate-application-template.ts) and the runtime
+// filler (lib/pdf.ts) so the two never drift apart.
+export const PDF_FIELDS = {
+  fullName: "fullName",
+  email: "email",
+  phone: "phone",
+  address: "address",
+  city: "city",
+  state: "state",
+  zip: "zip",
+  dateOfBirth: "dateOfBirth",
+
+  positionAppliedFor: "positionAppliedFor",
+  availabilityDate: "availabilityDate",
+  desiredRoutes: "desiredRoutes",
+  willingToTravel: "willingToTravel",
+  eligibleToWork: "eligibleToWork",
+
+  cdlNumber: "cdlNumber",
+  cdlState: "cdlState",
+  cdlClass: "cdlClass",
+  cdlEndorsements: "cdlEndorsements",
+  cdlExpiration: "cdlExpiration",
+  yearsExperience: "yearsExperience",
+  equipmentOperated: "equipmentOperated",
+
+  emp1Employer: "emp1_employer",
+  emp1Position: "emp1_position",
+  emp1From: "emp1_from",
+  emp1To: "emp1_to",
+  emp1Reason: "emp1_reason",
+  emp2Employer: "emp2_employer",
+  emp2Position: "emp2_position",
+  emp2From: "emp2_from",
+  emp2To: "emp2_to",
+  emp2Reason: "emp2_reason",
+  emp3Employer: "emp3_employer",
+  emp3Position: "emp3_position",
+  emp3From: "emp3_from",
+  emp3To: "emp3_to",
+  emp3Reason: "emp3_reason",
+
+  hadAccidents: "hadAccidents",
+  accidentsExplain: "accidentsExplain",
+  hadViolations: "hadViolations",
+  violationsExplain: "violationsExplain",
+
+  ref1Name: "ref1_name",
+  ref1Relationship: "ref1_relationship",
+  ref1Phone: "ref1_phone",
+  ref2Name: "ref2_name",
+  ref2Relationship: "ref2_relationship",
+  ref2Phone: "ref2_phone",
+  ref3Name: "ref3_name",
+  ref3Relationship: "ref3_relationship",
+  ref3Phone: "ref3_phone",
+
+  consentBackgroundCheck: "consentBackgroundCheck",
+  signatureName: "signatureName",
+  signatureDate: "signatureDate",
+} as const;
