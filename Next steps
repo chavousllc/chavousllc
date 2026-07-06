@@ -1,0 +1,20 @@
+1. Create the Vercel project
+
+Go to vercel.com, sign in (GitHub login is easiest)
+"Add New" → "Project" → import chavousllc/chavousllc from GitHub
+Leave build settings on their defaults — Vercel auto-detects Next.js, no changes needed
+2. Add environment variables (Project Settings → Environment Variables) — copy the values straight from your local .env file:
+
+DATABASE_URL, DIRECT_URL — same Supabase pooler URLs you're using locally
+RESEND_API_KEY, EMAIL_FROM, NOTIFY_EMAIL
+NEXTAUTH_SECRET — same value
+NEXTAUTH_URL — set this to https://chavousllc.com (not localhost, since this is production)
+ADMIN_EMAIL, ADMIN_PASSWORD
+3. Deploy — Vercel builds it and gives you a temporary URL like chavousllc.vercel.app. Check that it actually works before moving the domain over.
+
+4. Point the domain at Vercel — in that project, go to Settings → Domains → add chavousllc.com. Vercel will show you the exact DNS records to set (usually an A record for the root domain + a CNAME for www).
+
+5. Update DNS in Cloudflare — go to your Cloudflare DNS dashboard and update those records to match what Vercel gave you. Set them to "DNS only" (grey cloud, not orange) so Cloudflare doesn't proxy in front of Vercel's own edge network.
+
+Once DNS propagates (usually minutes, sometimes longer), chavousllc.com should serve the real site. Let me know what you see at each step — if the build fails on Vercel or the domain doesn't connect, paste me the error and I'll help sort it out.
+
