@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { TextInput } from "@/components/form/inputs";
 
@@ -66,6 +67,11 @@ export default function AdminLoginPage() {
             {loading ? "Signing in…" : "Sign In"}
           </button>
         </form>
+        <p className="mt-5 text-center text-sm">
+          <Link href="/admin/forgot-password" className="font-semibold text-brand-600 hover:text-brand-700">
+            Forgot your password?
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -1,11 +1,36 @@
-const PLACEHOLDER_PARTNERS = [
-  "Northpoint Retail",
-  "Cascade Foods Co.",
-  "Meridian Manufacturing",
-  "Ironclad Supply",
-  "BlueHarbor Distribution",
-  "Summit Building Materials",
+import {
+  ShoppingBag,
+  Apple,
+  Factory,
+  ShieldCheck,
+  Anchor,
+  Mountain,
+  Store,
+  Wheat,
+  type LucideIcon,
+} from "lucide-react";
+
+const PARTNERS: { name: string; icon: LucideIcon }[] = [
+  { name: "Northpoint Retail", icon: ShoppingBag },
+  { name: "Cascade Foods Co.", icon: Apple },
+  { name: "Meridian Manufacturing", icon: Factory },
+  { name: "Ironclad Supply", icon: ShieldCheck },
+  { name: "BlueHarbor Distribution", icon: Anchor },
+  { name: "Summit Building Materials", icon: Mountain },
+  { name: "Vantage Retail Group", icon: Store },
+  { name: "Pinnacle Foods", icon: Wheat },
 ];
+
+function PartnerLogo({ name, icon: Icon }: { name: string; icon: LucideIcon }) {
+  return (
+    <div className="flex shrink-0 items-center gap-2.5 px-6">
+      <Icon className="h-5 w-5 text-ink-300" strokeWidth={1.75} />
+      <span className="whitespace-nowrap text-lg font-extrabold uppercase tracking-tight text-ink-300">
+        {name}
+      </span>
+    </div>
+  );
+}
 
 export function TrustedByStrip() {
   return (
@@ -14,15 +39,16 @@ export function TrustedByStrip() {
         <p className="text-center text-xs font-semibold uppercase tracking-wide text-ink-400">
           Trusted by shippers across the country
         </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
-          {PLACEHOLDER_PARTNERS.map((name) => (
-            <span
-              key={name}
-              className="text-lg font-extrabold uppercase tracking-tight text-ink-300"
-            >
-              {name}
-            </span>
-          ))}
+
+        <div className="group relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+          <div className="animate-marquee-ltr flex w-max items-center group-hover:[animation-play-state:paused]">
+            {PARTNERS.map((partner) => (
+              <PartnerLogo key={`a-${partner.name}`} {...partner} />
+            ))}
+            {PARTNERS.map((partner) => (
+              <PartnerLogo key={`b-${partner.name}`} {...partner} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
