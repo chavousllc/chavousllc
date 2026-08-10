@@ -23,12 +23,16 @@ export function QuoteForm() {
 
   async function onSubmit(data: QuoteInput) {
     setServerError(null);
-    const result = await submitQuoteRequest(data);
-    if (result.success) {
-      setSubmitted(true);
-      reset();
-    } else {
-      setServerError(result.error ?? "Something went wrong. Please try again.");
+    try {
+      const result = await submitQuoteRequest(data);
+      if (result.success) {
+        setSubmitted(true);
+        reset();
+      } else {
+        setServerError(result.error ?? "Something went wrong. Please try again.");
+      }
+    } catch {
+      setServerError("Something went wrong. Please try again.");
     }
   }
 

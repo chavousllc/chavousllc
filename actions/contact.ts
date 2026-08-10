@@ -11,7 +11,12 @@ export async function submitContactMessage(input: ContactInput) {
   }
   const data = parsed.data;
 
-  await prisma.contactMessage.create({ data });
+  try {
+    await prisma.contactMessage.create({ data });
+  } catch (error) {
+    console.error("[contact] failed to save message", error);
+    return { success: false as const, error: "Something went wrong. Please try again." };
+  }
 
   const notifyEmail = process.env.NOTIFY_EMAIL ?? "dispatch@chavousllc.com";
   await sendEmail({

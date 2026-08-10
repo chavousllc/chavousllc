@@ -20,12 +20,16 @@ export function ContactForm() {
 
   async function onSubmit(data: ContactInput) {
     setServerError(null);
-    const result = await submitContactMessage(data);
-    if (result.success) {
-      setSubmitted(true);
-      reset();
-    } else {
-      setServerError(result.error ?? "Something went wrong. Please try again.");
+    try {
+      const result = await submitContactMessage(data);
+      if (result.success) {
+        setSubmitted(true);
+        reset();
+      } else {
+        setServerError(result.error ?? "Something went wrong. Please try again.");
+      }
+    } catch {
+      setServerError("Something went wrong. Please try again.");
     }
   }
 

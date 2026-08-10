@@ -11,24 +11,29 @@ export async function submitQuoteRequest(input: QuoteInput) {
   }
   const data = parsed.data;
 
-  await prisma.quoteRequest.create({
-    data: {
-      shipperCompany: data.shipperCompany,
-      contactName: data.contactName,
-      email: data.email,
-      phone: data.phone,
-      originCity: data.originCity,
-      originState: data.originState.toUpperCase(),
-      destCity: data.destCity,
-      destState: data.destState.toUpperCase(),
-      pickupDate: new Date(data.pickupDate),
-      equipmentType: data.equipmentType,
-      loadType: data.loadType,
-      weight: data.weight,
-      commodity: data.commodity,
-      notes: data.notes ?? "",
-    },
-  });
+  try {
+    await prisma.quoteRequest.create({
+      data: {
+        shipperCompany: data.shipperCompany,
+        contactName: data.contactName,
+        email: data.email,
+        phone: data.phone,
+        originCity: data.originCity,
+        originState: data.originState.toUpperCase(),
+        destCity: data.destCity,
+        destState: data.destState.toUpperCase(),
+        pickupDate: new Date(data.pickupDate),
+        equipmentType: data.equipmentType,
+        loadType: data.loadType,
+        weight: data.weight,
+        commodity: data.commodity,
+        notes: data.notes ?? "",
+      },
+    });
+  } catch (error) {
+    console.error("[quote] failed to save request", error);
+    return { success: false as const, error: "Something went wrong. Please try again." };
+  }
 
   const notifyEmail = process.env.NOTIFY_EMAIL ?? "dispatch@chavousllc.com";
 
