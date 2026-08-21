@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isMaskedValue } from "@/lib/crypto";
 
 export const forgotPasswordSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -55,6 +56,25 @@ export const quoteSchema = z.object({
 });
 export type QuoteInput = z.infer<typeof quoteSchema>;
 
+export const DRIVER_TYPES = [
+  {
+    value: "COMPANY_DRIVER",
+    label: "Company Driver",
+    description: "Drive company-owned vehicles and receive benefits",
+  },
+  {
+    value: "OWNER_OPERATOR",
+    label: "Owner Operator",
+    description: "Own and operate your own truck with higher earnings",
+  },
+  {
+    value: "LEASED_OPERATOR",
+    label: "Leased Operator",
+    description:
+      "Drive a truck owned by a separate company and leased to Chavous Transportation LLC",
+  },
+] as const;
+
 const employmentEntrySchema = z.object({
   employer: z.string(),
   position: z.string(),
@@ -70,10 +90,21 @@ const referenceEntrySchema = z.object({
 });
 
 export const applicationSchema = z.object({
+  // Driver type
+  driverType: z.enum(["COMPANY_DRIVER", "OWNER_OPERATOR", "LEASED_OPERATOR"], {
+    message: "Select a driver type",
+  }),
+
   // Applicant
   fullName: z.string().min(2, "Full name is required"),
   email: z.string().email("Enter a valid email"),
   phone: z.string().min(7, "Enter a valid phone number"),
+  ssn: z
+    .string()
+    .refine(
+      (v) => isMaskedValue(v) || /^\d{9}$/.test(v.replace(/\D/g, "")),
+      "Enter a valid 9-digit Social Security Number"
+    ),
   address: z.string().min(2, "Street address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().length(2, "Use a 2-letter state code"),
@@ -115,6 +146,16 @@ export const applicationSchema = z.object({
     referenceEntrySchema,
   ]),
 
+  // Banking (direct deposit)
+  bankName: z.string().min(2, "Bank name is required"),
+  bankRoutingNumber: z.string().regex(/^\d{9}$/, "Enter a valid 9-digit routing number"),
+  bankAccountNumber: z
+    .string()
+    .refine(
+      (v) => isMaskedValue(v) || v.replace(/\D/g, "").length >= 4,
+      "Enter a valid account number"
+    ),
+
   consentBackgroundCheck: z.boolean().refine((v) => v === true, {
     message: "You must consent to a background/MVR check to apply",
   }),
@@ -122,3 +163,59 @@ export const applicationSchema = z.object({
   signatureDate: z.string().min(1, "Date is required"),
 });
 export type ApplicationInput = z.infer<typeof applicationSchema>;
+
+export const APPLICATION_STEPS = [
+  "driverType",
+  "personalInfo",
+  "experience",
+  "documents",
+  "banking",
+  "submit",
+] as const;
+export type ApplicationStep = (typeof APPLICATION_STEPS)[number];
+
+// Field names validated before allowing "Next" on each step.
+export const STEP_FIELDS: Record<ApplicationStep, (keyof ApplicationInput)[]> = {
+  driverType: ["driverType"],
+  personalInfo: [
+    "fullName",
+    "email",
+    "phone",
+    "ssn",
+    "address",
+    "city",
+    "state",
+    "zip",
+    "dateOfBirth",
+    "positionAppliedFor",
+    "availabilityDate",
+    "desiredRoutes",
+    "willingToTravel",
+    "eligibleToWork",
+  ],
+  experience: [
+    "cdlNumber",
+    "cdlState",
+    "cdlClass",
+    "cdlEndorsements",
+    "cdlExpiration",
+    "yearsExperience",
+    "equipmentOperated",
+    "employmentHistory",
+    "hadAccidents",
+    "accidentsExplain",
+    "hadViolations",
+    "violationsExplain",
+    "references",
+  ],
+  documents: [],
+  banking: ["bankName", "bankRoutingNumber", "bankAccountNumber"],
+  submit: ["consentBackgroundCheck", "signatureName", "signatureDate"],
+};
+
+export const DOCUMENT_TYPES = [
+  { value: "CDL_FRONT", label: "CDL — Front", required: true },
+  { value: "CDL_BACK", label: "CDL — Back", required: true },
+  { value: "MEDICAL_CARD", label: "Medical Certificate (DOT Card)", required: true },
+  { value: "OTHER", label: "Additional Document", required: false },
+] as const;

@@ -4,17 +4,22 @@ import clsx from "clsx";
 function Field({
   label,
   error,
+  required,
   children,
   className,
 }: {
   label: string;
   error?: string;
+  required?: boolean;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
     <label className={clsx("block", className)}>
-      <span className="text-sm font-semibold text-ink-800">{label}</span>
+      <span className="text-sm font-semibold text-ink-800">
+        {label}
+        {required && <span className="text-brand-600"> *</span>}
+      </span>
       <div className="mt-1.5">{children}</div>
       {error && <p className="mt-1 text-xs font-medium text-brand-600">{error}</p>}
     </label>
@@ -27,10 +32,10 @@ const baseInputClass =
 export const TextInput = forwardRef<
   HTMLInputElement,
   InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string }
->(function TextInput({ label, error, className, ...props }, ref) {
+>(function TextInput({ label, error, required, className, ...props }, ref) {
   return (
-    <Field label={label} error={error} className={className}>
-      <input ref={ref} className={baseInputClass} {...props} />
+    <Field label={label} error={error} required={required} className={className}>
+      <input ref={ref} required={required} className={baseInputClass} {...props} />
     </Field>
   );
 });
@@ -38,10 +43,10 @@ export const TextInput = forwardRef<
 export const TextArea = forwardRef<
   HTMLTextAreaElement,
   TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; error?: string }
->(function TextArea({ label, error, className, ...props }, ref) {
+>(function TextArea({ label, error, required, className, ...props }, ref) {
   return (
-    <Field label={label} error={error} className={className}>
-      <textarea ref={ref} rows={4} className={baseInputClass} {...props} />
+    <Field label={label} error={error} required={required} className={className}>
+      <textarea ref={ref} rows={4} required={required} className={baseInputClass} {...props} />
     </Field>
   );
 });
@@ -49,10 +54,10 @@ export const TextArea = forwardRef<
 export const Select = forwardRef<
   HTMLSelectElement,
   SelectHTMLAttributes<HTMLSelectElement> & { label: string; error?: string; children: React.ReactNode }
->(function Select({ label, error, className, children, ...props }, ref) {
+>(function Select({ label, error, required, className, children, ...props }, ref) {
   return (
-    <Field label={label} error={error} className={className}>
-      <select ref={ref} className={baseInputClass} {...props}>
+    <Field label={label} error={error} required={required} className={className}>
+      <select ref={ref} required={required} className={baseInputClass} {...props}>
         {children}
       </select>
     </Field>
@@ -61,18 +66,22 @@ export const Select = forwardRef<
 
 export const Checkbox = forwardRef<
   HTMLInputElement,
-  InputHTMLAttributes<HTMLInputElement> & { label: React.ReactNode; error?: string }
->(function Checkbox({ label, error, className, ...props }, ref) {
+  InputHTMLAttributes<HTMLInputElement> & { label: React.ReactNode; error?: string; required?: boolean }
+>(function Checkbox({ label, error, required, className, ...props }, ref) {
   return (
     <div className={className}>
       <label className="flex items-start gap-3">
         <input
           ref={ref}
           type="checkbox"
+          required={required}
           className="mt-1 h-4 w-4 flex-shrink-0 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
           {...props}
         />
-        <span className="text-sm text-ink-700">{label}</span>
+        <span className="text-sm text-ink-700">
+          {label}
+          {required && <span className="text-brand-600"> *</span>}
+        </span>
       </label>
       {error && <p className="mt-1 text-xs font-medium text-brand-600">{error}</p>}
     </div>

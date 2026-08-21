@@ -2,6 +2,8 @@
 // generator (scripts/generate-application-template.ts) and the runtime
 // filler (lib/pdf.ts) so the two never drift apart.
 export const PDF_FIELDS = {
+  driverType: "driverType",
+
   fullName: "fullName",
   email: "email",
   phone: "phone",
@@ -55,6 +57,10 @@ export const PDF_FIELDS = {
   ref3Name: "ref3_name",
   ref3Relationship: "ref3_relationship",
   ref3Phone: "ref3_phone",
+
+  bankName: "bankName",
+  bankRoutingNumber: "bankRoutingNumber",
+  bankAccountNumberMasked: "bankAccountNumberMasked",
 
   consentBackgroundCheck: "consentBackgroundCheck",
   signatureName: "signatureName",

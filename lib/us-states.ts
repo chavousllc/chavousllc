@@ -55,3 +55,8 @@ export const FIPS_TO_STATE: Record<string, { abbr: string; name: string }> = {
 };
 
 export const ALL_STATE_ABBRS = Object.values(FIPS_TO_STATE).map((s) => s.abbr);
+
+// The 50 states (excludes DC), alphabetical by name — for state <select> dropdowns.
+export const US_STATES = Object.values(FIPS_TO_STATE)
+  .filter((s) => s.abbr !== "DC")
+  .sort((a, b) => a.name.localeCompare(b.name));

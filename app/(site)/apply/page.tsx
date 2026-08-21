@@ -7,10 +7,16 @@ export const metadata: Metadata = {
   description: "Apply to drive for Chavous Transportation LLC — submit your CDL application online.",
 };
 
-export default function ApplyPage() {
+export default async function ApplyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ resume?: string }>;
+}) {
+  const { resume } = await searchParams;
+
   return (
     <section className="section bg-ink-50/60">
-      <Container className="max-w-3xl">
+      <Container className="max-w-4xl">
         <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">
             Careers
@@ -24,8 +30,8 @@ export default function ApplyPage() {
           </p>
         </div>
 
-        <div className="mt-12 rounded-3xl border border-ink-100 bg-white p-8 shadow-sm sm:p-10">
-          <ApplyForm />
+        <div className="mt-12">
+          <ApplyForm resumeParam={resume} />
         </div>
       </Container>
     </section>

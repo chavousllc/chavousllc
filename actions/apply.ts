@@ -3,56 +3,40 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { fillDriverApplicationPdf } from "@/lib/pdf";
-import { applicationSchema, type ApplicationInput } from "@/lib/schemas";
+import { buildApplicationUpdateData } from "@/lib/application-data";
+import { findDraftByResumeToken } from "@/lib/apply-draft-lookup";
+import { applicationSchema, DOCUMENT_TYPES, type ApplicationInput } from "@/lib/schemas";
 
-export async function submitDriverApplication(input: ApplicationInput) {
+export async function submitDriverApplication(resumeToken: string, input: ApplicationInput) {
   const parsed = applicationSchema.safeParse(input);
   if (!parsed.success) {
     return { success: false as const, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
   const data = parsed.data;
 
+  const draft = await findDraftByResumeToken(resumeToken);
+  if (!draft) {
+    return { success: false as const, error: "This application could not be found or was already submitted." };
+  }
+
+  const requiredDocumentTypes = DOCUMENT_TYPES.filter((d) => d.required).map((d) => d.value);
+  const uploadedTypes = new Set(draft.documents.map((d) => d.type));
+  const missingDocument = requiredDocumentTypes.find((type) => !uploadedTypes.has(type));
+  if (missingDocument) {
+    return { success: false as const, error: "Please upload all required documents before submitting." };
+  }
+
   const pdfBuffer = await fillDriverApplicationPdf(data);
   const pdfFileName = `driver-application-${data.fullName.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.pdf`;
 
-  await prisma.driverApplication.create({
+  await prisma.driverApplication.update({
+    where: { id: draft.id },
     data: {
-      fullName: data.fullName,
-      email: data.email,
-      phone: data.phone,
-      address: data.address,
-      city: data.city,
-      state: data.state.toUpperCase(),
-      zip: data.zip,
-      dateOfBirth: new Date(data.dateOfBirth),
-
-      positionAppliedFor: data.positionAppliedFor,
-      availabilityDate: new Date(data.availabilityDate),
-      desiredRoutes: data.desiredRoutes,
-      willingToTravel: data.willingToTravel,
-      eligibleToWork: data.eligibleToWork,
-
-      cdlNumber: data.cdlNumber,
-      cdlState: data.cdlState.toUpperCase(),
-      cdlClass: data.cdlClass,
-      cdlEndorsements: data.cdlEndorsements ?? "",
-      cdlExpiration: new Date(data.cdlExpiration),
-      yearsExperience: data.yearsExperience,
-      equipmentOperated: data.equipmentOperated,
-
-      employmentHistory: JSON.stringify(data.employmentHistory),
-      hadAccidents: data.hadAccidents,
-      accidentsExplain: data.accidentsExplain ?? "",
-      hadViolations: data.hadViolations,
-      violationsExplain: data.violationsExplain ?? "",
-      references: JSON.stringify(data.references),
-
-      consentBackgroundCheck: data.consentBackgroundCheck,
-      signatureName: data.signatureName,
-      signatureDate: new Date(data.signatureDate),
-
+      ...buildApplicationUpdateData(data),
       pdfData: new Uint8Array(pdfBuffer),
       pdfFileName,
+      submittedAt: new Date(),
+      resumeTokenHash: null,
     },
   });
 

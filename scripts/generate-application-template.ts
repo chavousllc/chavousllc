@@ -109,9 +109,14 @@ async function main() {
   const colB = MARGIN + 260;
   const fullWidth = PAGE_WIDTH - MARGIN * 2;
 
-  // ---------- PAGE 1 — Applicant & Position ----------
-  let page = newPage("Applicant Information", 1, 3);
+  // ---------- PAGE 1 — Driver Type, Applicant & Position ----------
+  let page = newPage("Applicant Information", 1, 4);
   let y = PAGE_HEIGHT - 130;
+
+  label(page, "Driver Type", colA, y);
+  y -= 14;
+  textField(form, page, PDF_FIELDS.driverType, colA, y, fullWidth);
+  y -= 40;
 
   label(page, "Full Name", colA, y);
   label(page, "Email", colB, y);
@@ -164,7 +169,7 @@ async function main() {
   page.drawText("Legally eligible to work in the U.S.", { x: colB + 20, y: y - 11, size: 9, font, color: INK });
 
   // ---------- PAGE 2 — CDL, Experience & Employment History ----------
-  page = newPage("License, Experience & Employment History", 2, 3);
+  page = newPage("License, Experience & Employment History", 2, 4);
   y = PAGE_HEIGHT - 130;
 
   label(page, "CDL Number", colA, y);
@@ -221,8 +226,8 @@ async function main() {
     y -= 36;
   }
 
-  // ---------- PAGE 3 — Driving Record, References, Consent ----------
-  page = newPage("Driving Record, References & Consent", 3, 3);
+  // ---------- PAGE 3 — Driving Record, References, Banking ----------
+  page = newPage("Driving Record, References & Banking", 3, 4);
   y = PAGE_HEIGHT - 130;
 
   checkbox(form, page, PDF_FIELDS.hadAccidents, colA, y);
@@ -275,10 +280,32 @@ async function main() {
   }
 
   y -= 14;
-  page.drawText("Consent & Certification", { x: MARGIN, y, size: 13, font: bold, color: INK });
+  page.drawText("Banking (Direct Deposit)", { x: MARGIN, y, size: 13, font: bold, color: INK });
   y -= 10;
   page.drawLine({ start: { x: MARGIN, y }, end: { x: PAGE_WIDTH - MARGIN, y }, thickness: 1, color: rgb(0.9, 0.9, 0.92) });
-  y -= 20;
+  y -= 24;
+
+  label(page, "Bank Name", colA, y);
+  label(page, "Routing Number", colB, y);
+  y -= 14;
+  textField(form, page, PDF_FIELDS.bankName, colA, y, 230);
+  textField(form, page, PDF_FIELDS.bankRoutingNumber, colB, y, 232);
+  y -= 40;
+
+  label(page, "Account Number", colA, y);
+  y -= 14;
+  textField(form, page, PDF_FIELDS.bankAccountNumberMasked, colA, y, 230);
+  page.drawText("Full account number is on file in the admin portal only.", {
+    x: colA + 240,
+    y: y + 4,
+    size: 8,
+    font,
+    color: MUTED,
+  });
+
+  // ---------- PAGE 4 — Consent & Certification ----------
+  page = newPage("Consent & Certification", 4, 4);
+  y = PAGE_HEIGHT - 130;
 
   const consentText =
     "I certify that the information provided in this application is true and complete to the best of my knowledge. " +

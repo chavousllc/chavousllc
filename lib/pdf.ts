@@ -2,7 +2,8 @@ import { PDFDocument, PDFCheckBox, PDFTextField } from "pdf-lib";
 import { readFile } from "fs/promises";
 import path from "path";
 import { PDF_FIELDS } from "@/lib/pdf-fields";
-import type { ApplicationInput } from "@/lib/schemas";
+import { maskAccountNumber } from "@/lib/crypto";
+import { DRIVER_TYPES, type ApplicationInput } from "@/lib/schemas";
 
 function fmtDate(value: string) {
   if (!value) return "";
@@ -29,6 +30,9 @@ export async function fillDriverApplicationPdf(data: ApplicationInput): Promise<
       else field.uncheck();
     }
   }
+
+  const driverTypeLabel = DRIVER_TYPES.find((d) => d.value === data.driverType)?.label ?? data.driverType;
+  setText(PDF_FIELDS.driverType, driverTypeLabel);
 
   setText(PDF_FIELDS.fullName, data.fullName);
   setText(PDF_FIELDS.email, data.email);
@@ -83,6 +87,10 @@ export async function fillDriverApplicationPdf(data: ApplicationInput): Promise<
     setText(PDF_FIELDS[relKey], entry.relationship ?? "");
     setText(PDF_FIELDS[phoneKey], entry.phone ?? "");
   });
+
+  setText(PDF_FIELDS.bankName, data.bankName);
+  setText(PDF_FIELDS.bankRoutingNumber, data.bankRoutingNumber);
+  setText(PDF_FIELDS.bankAccountNumberMasked, maskAccountNumber(data.bankAccountNumber));
 
   setChecked(PDF_FIELDS.consentBackgroundCheck, data.consentBackgroundCheck);
   setText(PDF_FIELDS.signatureName, data.signatureName);

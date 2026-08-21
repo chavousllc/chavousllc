@@ -36,6 +36,8 @@ recharts · react-simple-maps
      [resend.com](https://resend.com) for a free API key. Until this is set,
      the site still works — emails are skipped with a console warning.
    - `NEXTAUTH_SECRET` — generate with `openssl rand -base64 32`.
+   - `APPLICATION_ENCRYPTION_KEY` — generate with `openssl rand -base64 32`;
+     encrypts SSN/bank account number on driver applications at rest.
    - `ADMIN_EMAIL` / `ADMIN_PASSWORD` — used once by the seed script to create
      your first admin login.
 
@@ -78,7 +80,11 @@ npm run pdf:template
 
 ## Notes
 
-- The driver application intentionally does not collect a full SSN — that's
-  handled during in-person/paper onboarding, not stored in the web database.
+- The driver application collects SSN and a bank account number for direct
+  deposit setup. Both are encrypted at rest with AES-256-GCM
+  (`lib/crypto.ts`) using `APPLICATION_ENCRYPTION_KEY` — generate one with
+  `openssl rand -base64 32`. Neither value is ever sent back to the browser
+  in full: a resumed application shows only the last 4 digits, and the admin
+  dashboard is the only place the full values are decrypted for viewing.
 - The cheetah logo (`components/Logo.tsx`) is a placeholder geometric mark.
   Swap in the real logo asset there when it's available.

@@ -38,7 +38,7 @@ model CompanyProfile {
   email          String   @default("dispatch@chavousllc.com")
   dispatchHours  String   @default("8:00 AM – 5:00 PM EST")
   address        String   @default("1112 Harper Dr, Warminster, PA 18974")
-  coverageStates String[] @default(["AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"])
+  coverageStates String[] @default(["AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"])
   updatedAt      DateTime @updatedAt
 }
 
@@ -71,53 +71,103 @@ enum SubmissionStatus {
   ARCHIVED
 }
 
+enum DriverType {
+  COMPANY_DRIVER
+  OWNER_OPERATOR
+  LEASED_OPERATOR
+}
+
+enum ApplicationDocumentType {
+  CDL_FRONT
+  CDL_BACK
+  MEDICAL_CARD
+  OTHER
+}
+
+// Draft-and-submit lifecycle: a row is created the moment an applicant starts
+// the wizard (submittedAt: null) and identified only by resumeTokenHash until
+// they finish. Most fields are therefore nullable at the DB layer — the zod
+// applicationSchema is the source of truth for what's required, enforced in
+// the submitDriverApplication server action before submittedAt is set.
 model DriverApplication {
-  id       String           @id @default(cuid())
-  status   SubmissionStatus @default(NEW)
+  id     String           @id @default(cuid())
+  status SubmissionStatus @default(NEW)
+
+  // Draft / resume
+  applicationCode String  @unique
+  resumeTokenHash String? @unique
+  currentStep     Int     @default(0)
+
+  driverType DriverType?
 
   // Applicant
-  fullName       String
-  email          String
-  phone          String
-  address        String
-  city           String
-  state          String
-  zip            String
-  dateOfBirth    DateTime
+  fullName    String?
+  email       String?
+  phone       String?
+  address     String?
+  city        String?
+  state       String?
+  zip         String?
+  dateOfBirth DateTime?
 
   // Position
-  positionAppliedFor String
-  availabilityDate   DateTime
-  desiredRoutes      String
-  willingToTravel    Boolean @default(true)
-  eligibleToWork     Boolean @default(true)
+  positionAppliedFor String?
+  availabilityDate   DateTime?
+  desiredRoutes      String?
+  willingToTravel    Boolean?  @default(true)
+  eligibleToWork     Boolean?  @default(true)
 
   // CDL / experience
-  cdlNumber        String
-  cdlState         String
-  cdlClass         String
-  cdlEndorsements  String  @default("")
-  cdlExpiration    DateTime
-  yearsExperience  Int
-  equipmentOperated String
+  cdlNumber         String?
+  cdlState          String?
+  cdlClass          String?
+  cdlEndorsements   String?   @default("")
+  cdlExpiration     DateTime?
+  yearsExperience   Int?
+  equipmentOperated String?
 
   // History
-  employmentHistory String // JSON string of prior employers (last 3 years)
-  hadAccidents      Boolean
-  accidentsExplain  String @default("")
-  hadViolations     Boolean
-  violationsExplain String @default("")
-  references        String // JSON string of reference contacts
+  employmentHistory String? // JSON string of prior employers (last 3 years)
+  hadAccidents      Boolean?
+  accidentsExplain  String?  @default("")
+  hadViolations     Boolean?
+  violationsExplain String?  @default("")
+  references        String? // JSON string of reference contacts
+
+  // Banking / identity — account number and SSN are AES-256-GCM encrypted
+  // (lib/crypto.ts) before they ever reach the DB; routing numbers alone
+  // aren't sensitive so are stored plain.
+  bankName                   String?
+  bankRoutingNumber          String?
+  bankAccountNumberEncrypted String?
+  ssnEncrypted               String?
+
+  documents ApplicationDocument[]
 
   // Consent / signature
-  consentBackgroundCheck Boolean
-  signatureName          String
-  signatureDate          DateTime
+  consentBackgroundCheck Boolean?
+  signatureName          String?
+  signatureDate          DateTime?
 
   pdfData     Bytes?
   pdfFileName String?
 
-  submittedAt DateTime @default(now())
+  createdAt   DateTime  @default(now())
+  submittedAt DateTime?
+}
+
+model ApplicationDocument {
+  id            String                  @id @default(cuid())
+  applicationId String
+  application   DriverApplication       @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  type          ApplicationDocumentType
+  fileName      String
+  mimeType      String
+  size          Int
+  data          Bytes
+  createdAt     DateTime                @default(now())
+
+  @@index([applicationId])
 }
 
 enum EquipmentType {
@@ -141,17 +191,17 @@ model QuoteRequest {
   email          String
   phone          String
 
-  originCity      String
-  originState     String
-  destCity        String
-  destState       String
-  pickupDate      DateTime
+  originCity  String
+  originState String
+  destCity    String
+  destState   String
+  pickupDate  DateTime
 
   equipmentType EquipmentType
   loadType      LoadType
   weight        Int
   commodity     String
-  notes         String @default("")
+  notes         String        @default("")
 
   submittedAt DateTime @default(now())
 }
