@@ -28,7 +28,7 @@ export function CTASection() {
           </Link>
         </div>
 
-        <SemiTruckIllustration className="mt-10 h-auto w-full max-w-xl" />
+        <SemiTruckIllustration className="mt-10 h-auto w-full max-w-2xl" />
       </Container>
     </section>
   );

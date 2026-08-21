@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ShieldCheck, Truck, CalendarDays, Award } from "lucide-react";
 import { Container } from "@/components/Container";
 import { CTASection } from "@/components/CTASection";
+import { Reveal } from "@/components/Reveal";
 import { getCompanyProfile } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -40,19 +41,18 @@ export default async function AboutPage() {
       <section className="section">
         <Container>
           <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-2xl border border-ink-100 p-6 text-center shadow-sm"
-              >
-                <stat.icon className="mx-auto h-6 w-6 text-brand-600" />
-                <p className="mt-3 text-2xl font-extrabold text-ink-900">
-                  {stat.value}
-                </p>
-                <p className="mt-1 text-xs font-medium text-ink-500">
-                  {stat.label}
-                </p>
-              </div>
+            {stats.map((stat, i) => (
+              <Reveal key={stat.label} delay={i * 80}>
+                <div className="rounded-2xl border border-ink-100 p-6 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-900/5">
+                  <stat.icon className="mx-auto h-6 w-6 text-brand-600" />
+                  <p className="mt-3 text-2xl font-extrabold text-ink-900">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-ink-500">
+                    {stat.label}
+                  </p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -60,7 +60,7 @@ export default async function AboutPage() {
 
       <section className="section bg-ink-50/60">
         <Container className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          <div>
+          <Reveal>
             <h2 className="text-2xl font-bold text-ink-900">Our Story</h2>
             <p className="mt-4 leading-relaxed text-ink-500">
               Founded in {profile.foundingYear}, {profile.companyName} started
@@ -74,8 +74,8 @@ export default async function AboutPage() {
               staff work together to keep freight moving — with clear
               communication at every step, from pickup to delivery.
             </p>
-          </div>
-          <div>
+          </Reveal>
+          <Reveal delay={120}>
             <h2 className="text-2xl font-bold text-ink-900">Safety Focus</h2>
             <ul className="mt-4 space-y-4">
               {[
@@ -95,7 +95,7 @@ export default async function AboutPage() {
             <p className="mt-6 text-xs font-medium text-ink-400">
               {profile.dotNumber} &middot; {profile.mcNumber}
             </p>
-          </div>
+          </Reveal>
         </Container>
       </section>
 

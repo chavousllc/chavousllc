@@ -100,7 +100,7 @@ export function FileInput({
           </>
         )}
       </div>
-      {error && <p className="mt-1 text-xs font-medium text-brand-600">{error}</p>}
+      {error && <p className="field-error mt-1 text-xs font-medium text-brand-600">{error}</p>}
     </div>
   );
 }

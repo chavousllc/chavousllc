@@ -1,12 +1,13 @@
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 import { Container } from "@/components/Container";
 import { ContactForm } from "@/components/ContactForm";
+import { telHref } from "@/lib/format";
 import type { CompanyProfile } from "@prisma/client";
 
 export function ContactSection({ profile }: { profile: CompanyProfile }) {
   const info = [
-    { icon: Phone, label: "Phone", value: profile.phone },
-    { icon: Mail, label: "Email", value: profile.email },
+    { icon: Phone, label: "Phone", value: profile.phone, href: telHref(profile.phone) },
+    { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
     { icon: Clock, label: "Dispatch Hours", value: profile.dispatchHours },
     { icon: MapPin, label: "Address", value: profile.address },
   ];
@@ -36,7 +37,15 @@ export function ContactSection({ profile }: { profile: CompanyProfile }) {
                   <dt className="text-xs font-semibold uppercase tracking-wide text-ink-400">
                     {item.label}
                   </dt>
-                  <dd className="text-sm font-medium text-ink-800">{item.value}</dd>
+                  <dd className="text-sm font-medium text-ink-800">
+                    {item.href ? (
+                      <a href={item.href} className="transition-colors hover:text-brand-600">
+                        {item.value}
+                      </a>
+                    ) : (
+                      item.value
+                    )}
+                  </dd>
                 </div>
               </div>
             ))}

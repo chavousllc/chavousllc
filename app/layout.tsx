@@ -31,6 +31,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-white text-ink-900" suppressHydrationWarning>
+        <noscript>
+          <style>{".reveal { opacity: 1 !important; transform: none !important; }"}</style>
+        </noscript>
         <NextTopLoader color="#dc2626" height={3} showSpinner={false} />
         {children}
       </body>

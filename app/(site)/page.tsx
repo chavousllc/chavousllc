@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/Container";
 import { HeroVisual } from "@/components/HeroVisual";
 import { ServiceCard } from "@/components/ServiceCard";
+import { Reveal } from "@/components/Reveal";
 import { CTASection } from "@/components/CTASection";
 import { TrustedByStrip } from "@/components/TrustedByStrip";
 import { SafetyShowcase } from "@/components/SafetyShowcase";
@@ -17,7 +18,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="overflow-hidden bg-ink-50/60">
+      <section id="home" className="overflow-hidden bg-ink-50/60 scroll-mt-24">
         <Container className="grid grid-cols-1 items-center gap-16 py-16 lg:grid-cols-2 lg:py-24">
           <div>
             <p className="inline-flex items-center rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-brand-700">
@@ -72,8 +73,10 @@ export default async function HomePage() {
           </div>
 
           <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
-              <ServiceCard key={service.id} service={service} />
+            {services.map((service, i) => (
+              <Reveal key={service.id} delay={(i % 3) * 80}>
+                <ServiceCard service={service} />
+              </Reveal>
             ))}
           </div>
         </Container>

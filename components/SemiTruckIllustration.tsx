@@ -1,7 +1,7 @@
 export function SemiTruckIllustration({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 560 300"
+      viewBox="0 0 620 300"
       className={className}
       fill="none"
       aria-hidden="true"
@@ -22,7 +22,7 @@ export function SemiTruckIllustration({ className }: { className?: string }) {
         className="truck-road"
         x1="60"
         y1="248"
-        x2="560"
+        x2="620"
         y2="248"
         stroke="#ffffff"
         strokeOpacity="0.12"
@@ -32,12 +32,12 @@ export function SemiTruckIllustration({ className }: { className?: string }) {
 
       {/* vehicle body — bounces gently on its suspension */}
       <g className="truck-bounce">
-        {/* trailer */}
-        <rect x="255" y="95" width="230" height="130" rx="8" fill="#f4f4f5" />
-        <rect x="255" y="95" width="230" height="130" rx="8" stroke="#d4d4d8" strokeWidth="2" />
-        <rect x="272" y="150" width="196" height="10" rx="3" fill="#ef4444" />
+        {/* 53' dry van trailer */}
+        <rect x="255" y="95" width="330" height="130" rx="8" fill="#f4f4f5" />
+        <rect x="255" y="95" width="330" height="130" rx="8" stroke="#d4d4d8" strokeWidth="2" />
+        <rect x="272" y="150" width="296" height="10" rx="3" fill="#ef4444" />
         <text
-          x="370"
+          x="420"
           y="140"
           textAnchor="middle"
           fontFamily="Arial, Helvetica, sans-serif"
@@ -48,6 +48,36 @@ export function SemiTruckIllustration({ className }: { className?: string }) {
         >
           CHAVOUS
         </text>
+        <text
+          x="568"
+          y="212"
+          textAnchor="end"
+          fontFamily="Arial, Helvetica, sans-serif"
+          fontWeight="700"
+          fontSize="10"
+          fill="#a1a1aa"
+          letterSpacing="0.5"
+        >
+          53&apos; TRAILER
+        </text>
+
+        {/* rear door jamb + hinges */}
+        <line x1="573" y1="97" x2="573" y2="223" stroke="#d4d4d8" strokeWidth="2" />
+        {[112, 160, 208].map((y) => (
+          <rect key={y} x="577" y={y} width="6" height="5" rx="1.5" fill="#a1a1aa" />
+        ))}
+
+        {/* kingpin / fifth-wheel coupling between tractor and trailer */}
+        <rect x="238" y="206" width="30" height="9" rx="2" fill="#52525b" />
+
+        {/* frame rail — spans the underbody from the coupling back to the tandem, so the trailer reads as one connected chassis instead of floating */}
+        <rect x="255" y="219" width="205" height="5" rx="2" fill="#71717a" opacity="0.55" />
+
+        {/* rear underride (ICC) bumper, hangs below the trailer floor */}
+        <rect x="540" y="221" width="42" height="9" rx="2" fill="#3f3f46" />
+
+        {/* mudflap trailing the rear tandem axle */}
+        <rect x="526" y="248" width="16" height="20" rx="2" fill="#27272a" opacity="0.85" />
 
         {/* exhaust stack, anchored to the back of the cab roofline */}
         <rect x="243" y="58" width="10" height="74" rx="3" fill="#71717a" />
@@ -77,7 +107,7 @@ export function SemiTruckIllustration({ className }: { className?: string }) {
       </g>
 
       {/* wheels — spin in place, stay grounded independent of the body bounce */}
-      {[178, 300, 360, 430].map((cx) => (
+      {[225, 470, 520].map((cx) => (
         <g key={cx} className="truck-wheel" style={{ transformOrigin: `${cx}px 230px` }}>
           <circle cx={cx} cy="230" r="24" fill="#18181b" />
           <circle cx={cx} cy="230" r="3.5" fill="#3f3f46" />

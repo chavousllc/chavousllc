@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { telHref } from "@/lib/format";
 import type { CompanyProfile } from "@prisma/client";
 
 export function Footer({ profile }: { profile: CompanyProfile }) {
@@ -31,8 +32,16 @@ export function Footer({ profile }: { profile: CompanyProfile }) {
             Get In Touch
           </h3>
           <ul className="mt-4 space-y-2 text-sm">
-            <li>{profile.phone}</li>
-            <li>{profile.email}</li>
+            <li>
+              <a href={telHref(profile.phone)} className="hover:text-white">
+                {profile.phone}
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${profile.email}`} className="hover:text-white">
+                {profile.email}
+              </a>
+            </li>
             <li>{profile.dispatchHours}</li>
             <li>{profile.address}</li>
           </ul>

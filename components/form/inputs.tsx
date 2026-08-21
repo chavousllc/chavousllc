@@ -21,13 +21,13 @@ function Field({
         {required && <span className="text-brand-600"> *</span>}
       </span>
       <div className="mt-1.5">{children}</div>
-      {error && <p className="mt-1 text-xs font-medium text-brand-600">{error}</p>}
+      {error && <p className="field-error mt-1 text-xs font-medium text-brand-600">{error}</p>}
     </label>
   );
 }
 
 const baseInputClass =
-  "w-full rounded-lg border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 shadow-sm outline-none transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100";
+  "w-full rounded-lg border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 shadow-sm outline-none transition-[border-color,box-shadow] duration-150 ease-out placeholder:text-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100";
 
 export const TextInput = forwardRef<
   HTMLInputElement,

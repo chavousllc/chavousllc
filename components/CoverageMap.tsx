@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import clsx from "clsx";
 import {
   ComposableMap,
   Geographies,
@@ -10,7 +11,7 @@ import statesGeo from "us-atlas/states-10m.json";
 import { FIPS_TO_STATE } from "@/lib/us-states";
 
 export function CoverageMap({ coverageStates }: { coverageStates: string[] }) {
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<{ name: string; covered: boolean } | null>(null);
   const covered = new Set(coverageStates);
 
   return (
@@ -26,8 +27,9 @@ export function CoverageMap({ coverageStates }: { coverageStates: string[] }) {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  onMouseEnter={() => setHovered(state?.name ?? null)}
+                  onMouseEnter={() => state && setHovered({ name: state.name, covered: isCovered })}
                   onMouseLeave={() => setHovered(null)}
+                  className="cursor-pointer transition-[fill] duration-150 ease-out outline-none"
                   style={{
                     default: {
                       fill: isCovered ? "#dc2626" : "#e4e4e7",
@@ -36,13 +38,13 @@ export function CoverageMap({ coverageStates }: { coverageStates: string[] }) {
                       outline: "none",
                     },
                     hover: {
-                      fill: isCovered ? "#b91c1c" : "#d4d4d8",
+                      fill: isCovered ? "#991b1b" : "#a1a1aa",
                       stroke: "#ffffff",
-                      strokeWidth: 0.75,
+                      strokeWidth: 1,
                       outline: "none",
                     },
                     pressed: {
-                      fill: "#991b1b",
+                      fill: "#7f1d1d",
                       outline: "none",
                     },
                   }}
@@ -53,8 +55,26 @@ export function CoverageMap({ coverageStates }: { coverageStates: string[] }) {
         </Geographies>
       </ComposableMap>
 
-      <div className="pointer-events-none absolute left-4 top-4 rounded-lg bg-white px-3 py-1.5 text-sm font-semibold text-ink-800 shadow-md">
-        {hovered ?? "Hover a state"}
+      <div
+        className={clsx(
+          "pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-lg bg-white px-3 py-1.5 text-sm font-semibold shadow-md transition-all duration-150",
+          hovered ? "translate-y-0 opacity-100" : "translate-y-0.5 opacity-90"
+        )}
+      >
+        {hovered && (
+          <span
+            className={clsx(
+              "h-2 w-2 flex-shrink-0 rounded-full",
+              hovered.covered ? "bg-brand-600" : "bg-ink-300"
+            )}
+          />
+        )}
+        <span className="text-ink-800">{hovered?.name ?? "Hover a state"}</span>
+        {hovered && (
+          <span className="text-xs font-medium text-ink-400">
+            {hovered.covered ? "Served" : "Not currently served"}
+          </span>
+        )}
       </div>
 
       <div className="mt-6 flex items-center justify-center gap-6 text-sm">

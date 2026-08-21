@@ -7,6 +7,7 @@ import { Logo } from "@/components/Logo";
 import clsx from "clsx";
 
 const LINKS = [
+  { href: "/#home", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/#services", label: "Services" },
   { href: "/coverage", label: "Coverage" },
@@ -20,7 +21,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink-100 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-        <Link href="/" onClick={() => setOpen(false)}>
+        <Link href="/#home" onClick={() => setOpen(false)}>
           <Logo />
         </Link>
 

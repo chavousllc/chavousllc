@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ShieldCheck, BadgeCheck, HandCoins, Zap } from "lucide-react";
 import { Container } from "@/components/Container";
 import { TrustVisual } from "@/components/TrustVisual";
+import { Reveal } from "@/components/Reveal";
 
 const FEATURES = [
   {
@@ -49,25 +50,28 @@ export function SafetyShowcase() {
         </div>
 
         <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-stretch">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-            {FEATURES.map((feature) => (
-              <div key={feature.title}>
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
-                  <feature.icon className="h-5 w-5" strokeWidth={1.75} />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {FEATURES.map((feature, i) => (
+              <Reveal key={feature.title} delay={i * 80}>
+                <div className="group h-full rounded-2xl border border-ink-100 p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-900/5">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                    <feature.icon className="h-5 w-5" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="mt-4 text-base font-bold text-ink-900">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-500">
+                    {feature.description}
+                  </p>
+                  <Link
+                    href={feature.href}
+                    className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
+                  >
+                    Learn More{" "}
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
                 </div>
-                <h3 className="mt-4 text-base font-bold text-ink-900">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-500">
-                  {feature.description}
-                </p>
-                <Link
-                  href={feature.href}
-                  className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700"
-                >
-                  Learn More <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-              </div>
+              </Reveal>
             ))}
           </div>
 

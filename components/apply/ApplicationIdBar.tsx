@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Link as LinkIcon, Check, Info } from "lucide-react";
+import clsx from "clsx";
+import { Copy, Link as LinkIcon, Check, Info, Loader2 } from "lucide-react";
 
 export function ApplicationIdBar({
   applicationCode,
@@ -25,9 +26,26 @@ export function ApplicationIdBar({
   return (
     <div className="rounded-2xl border border-ink-100 bg-white p-5 shadow-sm sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="text-ink-500">Application ID:</span>
           <span className="font-mono font-semibold text-brand-600">{applicationCode}</span>
+          <span
+            className={clsx(
+              "inline-flex items-center gap-1 text-xs font-medium transition-opacity duration-300",
+              saveState === "idle" ? "opacity-0" : "opacity-100",
+              saveState === "saving" ? "text-ink-400" : "text-green-600"
+            )}
+          >
+            {saveState === "saving" ? (
+              <>
+                <Loader2 className="h-3 w-3 animate-spin" /> Saving…
+              </>
+            ) : (
+              <>
+                <Check className="h-3 w-3" /> Saved
+              </>
+            )}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -51,7 +69,7 @@ export function ApplicationIdBar({
       <p className="mt-3 flex items-start gap-1.5 text-xs leading-relaxed text-ink-400">
         <Info className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
         <span>
-          Your progress is saved automatically{saveState === "saving" ? " — saving…" : ""}. Copy the resume link to
+          Your progress is saved automatically. Copy the resume link to
           finish later on any device — or send it to someone who can continue filling it out with the info already
           entered. For security, a shared link shows only the last 4 digits of any SSN or bank account.
         </span>
