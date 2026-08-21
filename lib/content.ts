@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { CompanyProfile, Service } from "@/app/generated/prisma/client";
+import type { CompanyProfile, Service } from "@prisma/client";
 
 export const DEFAULT_COMPANY_PROFILE: CompanyProfile = {
   id: "main",

@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { decryptField, maskSSN, maskAccountNumber } from "@/lib/crypto";
 import { buildApplicationUpdateData, type ApplicationPatch } from "@/lib/application-data";
 import { DOCUMENT_TYPES } from "@/lib/schemas";
-import { ApplicationDocumentType } from "@/app/generated/prisma/client";
+import { ApplicationDocumentType } from "@prisma/client";
 import { findDraftByResumeToken, hashToken, generateApplicationCode } from "@/lib/apply-draft-lookup";
 
 const MAX_DOCUMENT_SIZE = 10 * 1024 * 1024; // 10MB

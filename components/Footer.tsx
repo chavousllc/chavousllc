@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import type { CompanyProfile } from "@/app/generated/prisma/client";
+import type { CompanyProfile } from "@prisma/client";
 
 export function Footer({ profile }: { profile: CompanyProfile }) {
   return (

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { TextInput, TextArea } from "@/components/form/inputs";
 import { updateCompanyProfile } from "@/actions/admin-content";
 import { ALL_STATE_ABBRS, FIPS_TO_STATE } from "@/lib/us-states";
-import type { CompanyProfile } from "@/app/generated/prisma/client";
+import type { CompanyProfile } from "@prisma/client";
 
 const STATE_OPTIONS = Object.values(FIPS_TO_STATE)
   .filter((s) => s.abbr !== "AK" && s.abbr !== "HI" && s.abbr !== "DC")

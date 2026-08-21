@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdminSession } from "@/lib/require-admin";
-import { SubmissionStatus } from "@/app/generated/prisma/client";
+import { SubmissionStatus } from "@prisma/client";
 
 export async function updateApplicationStatus(id: string, status: SubmissionStatus) {
   await requireAdminSession();

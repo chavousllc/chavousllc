@@ -1,7 +1,7 @@
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 import { Container } from "@/components/Container";
 import { ContactForm } from "@/components/ContactForm";
-import type { CompanyProfile } from "@/app/generated/prisma/client";
+import type { CompanyProfile } from "@prisma/client";
 
 export function ContactSection({ profile }: { profile: CompanyProfile }) {
   const info = [

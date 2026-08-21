@@ -1,5 +1,5 @@
 import { ICONS } from "@/lib/icons";
-import type { Service } from "@/app/generated/prisma/client";
+import type { Service } from "@prisma/client";
 
 export function ServiceCard({ service }: { service: Service }) {
   const Icon = ICONS[service.icon] ?? ICONS.truck;

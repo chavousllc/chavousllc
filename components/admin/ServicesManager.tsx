@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Trash2, Plus } from "lucide-react";
 import { upsertService, deleteService } from "@/actions/admin-content";
-import type { Service } from "@/app/generated/prisma/client";
+import type { Service } from "@prisma/client";
 
 const ICON_OPTIONS = [
   "truck",

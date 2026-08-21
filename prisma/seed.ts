@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { PrismaClient, ServiceCategory } from "../app/generated/prisma/client";
+import { PrismaClient, ServiceCategory } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
