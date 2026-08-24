@@ -9,7 +9,7 @@ export const DEFAULT_COMPANY_PROFILE: CompanyProfile = {
     "Chavous Transportation LLC moves freight across the continental United States with a modern fleet and a safety-first team you can count on.",
   aboutText:
     "Chavous Transportation LLC is a mid-size carrier built on reliability, safety, and communication. Our team of experienced drivers and dispatchers works around the clock to keep your freight moving on time, every time.",
-  foundingYear: 2016,
+  foundingYear: 2022,
   fleetSize: 35,
   dotNumber: "U.S. DOT# 3872584",
   mcNumber: "MC-1418287-C",
