@@ -4,6 +4,7 @@ import { Container } from "@/components/Container";
 import { CTASection } from "@/components/CTASection";
 import { Reveal } from "@/components/Reveal";
 import { getCompanyProfile } from "@/lib/content";
+import { saferDotHref } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "About Us | Chavous Transportation LLC",
@@ -95,7 +96,15 @@ export default async function AboutPage() {
               ))}
             </ul>
             <p className="mt-6 text-xs font-medium text-ink-400">
-              {profile.dotNumber} &middot; {profile.mcNumber}
+              <a
+                href={saferDotHref(profile.dotNumber)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-ink-600"
+              >
+                {profile.dotNumber}
+              </a>{" "}
+              &middot; {profile.mcNumber}
             </p>
           </Reveal>
         </Container>

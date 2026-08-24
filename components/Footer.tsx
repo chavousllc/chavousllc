@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { telHref } from "@/lib/format";
+import { telHref, saferDotHref } from "@/lib/format";
 import type { CompanyProfile } from "@prisma/client";
 
 export function Footer({ profile }: { profile: CompanyProfile }) {
@@ -14,7 +14,14 @@ export function Footer({ profile }: { profile: CompanyProfile }) {
             reliable, safe, and on time.
           </p>
           <div className="mt-4 flex flex-col gap-1 text-xs text-ink-500">
-            <span>{profile.dotNumber}</span>
+            <a
+              href={saferDotHref(profile.dotNumber)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-ink-300"
+            >
+              {profile.dotNumber}
+            </a>
             <span>{profile.mcNumber}</span>
             <Link href="/admin/login" className="hover:text-ink-300">
               Admin
