@@ -16,7 +16,7 @@ export default async function SiteLayout({
     <>
       <PageViewTracker />
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pt-20">{children}</main>
       <Footer profile={profile} />
     </>
   );

@@ -59,16 +59,23 @@ export function Logo({
   className,
   markClassName,
   showTagline = false,
+  light = false,
 }: {
   className?: string;
   markClassName?: string;
   showTagline?: boolean;
+  light?: boolean;
 }) {
   return (
     <span className={clsx("inline-flex items-center gap-2.5", className)}>
       <LogoMark className={markClassName} />
       <span className="flex flex-col leading-tight">
-        <span className="text-lg font-extrabold tracking-tight text-ink-900">
+        <span
+          className={clsx(
+            "text-lg font-extrabold tracking-tight transition-colors",
+            light ? "text-white" : "text-ink-900"
+          )}
+        >
           Chavous <span className="text-brand-600">Transportation</span>
         </span>
         {showTagline && (

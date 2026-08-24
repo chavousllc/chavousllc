@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "@/components/Logo";
 import clsx from "clsx";
 
@@ -17,12 +17,34 @@ const LINKS = [
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const isHome = pathname === "/";
+
+  useEffect(() => {
+    if (!isHome) return;
+    function onScroll() {
+      setScrolled(window.scrollY > 24);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
+
+  const transparent = isHome && !scrolled && !open;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ink-100 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-[90rem] items-center justify-between px-6 py-4 lg:px-8">
+    <header
+      className={clsx(
+        "fixed inset-x-0 top-0 z-50 flex h-20 items-center transition-colors duration-300",
+        transparent
+          ? "border-b border-transparent bg-transparent"
+          : "border-b border-ink-100 bg-white/90 backdrop-blur"
+      )}
+    >
+      <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between px-6 lg:px-8">
         <Link href="/#home" onClick={() => setOpen(false)}>
-          <Logo />
+          <Logo light={transparent} />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
@@ -32,7 +54,11 @@ export function Navbar() {
               href={link.href}
               className={clsx(
                 "text-sm font-semibold transition-colors hover:text-brand-600",
-                pathname === link.href ? "text-brand-600" : "text-ink-700"
+                pathname === link.href
+                  ? "text-brand-600"
+                  : transparent
+                    ? "text-white"
+                    : "text-ink-700"
               )}
             >
               {link.label}
@@ -43,7 +69,12 @@ export function Navbar() {
         <div className="hidden items-center gap-3 lg:flex">
           <Link
             href="/apply"
-            className="btn-press rounded-full border border-ink-200 px-4 py-2 text-sm font-semibold text-ink-800 transition-colors hover:border-brand-600 hover:text-brand-600"
+            className={clsx(
+              "btn-press rounded-full border px-4 py-2 text-sm font-semibold transition-colors hover:border-brand-600 hover:text-brand-600",
+              transparent
+                ? "border-white/40 text-white"
+                : "border-ink-200 text-ink-800"
+            )}
           >
             Apply to Drive
           </Link>
@@ -57,26 +88,32 @@ export function Navbar() {
 
         <button
           type="button"
-          className="btn-press flex h-10 w-10 items-center justify-center rounded-full border border-ink-200 lg:hidden"
+          className={clsx(
+            "btn-press flex h-10 w-10 items-center justify-center rounded-full border transition-colors lg:hidden",
+            transparent ? "border-white/40" : "border-ink-200"
+          )}
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
         >
           <span className="relative block h-3.5 w-4">
             <span
               className={clsx(
-                "absolute left-0 top-0 h-0.5 w-4 bg-ink-800 transition-transform",
+                "absolute left-0 top-0 h-0.5 w-4 transition-transform",
+                transparent ? "bg-white" : "bg-ink-800",
                 open && "translate-y-[6px] rotate-45"
               )}
             />
             <span
               className={clsx(
-                "absolute left-0 top-1.5 h-0.5 w-4 bg-ink-800 transition-opacity",
+                "absolute left-0 top-1.5 h-0.5 w-4 transition-opacity",
+                transparent ? "bg-white" : "bg-ink-800",
                 open && "opacity-0"
               )}
             />
             <span
               className={clsx(
-                "absolute left-0 top-3 h-0.5 w-4 bg-ink-800 transition-transform",
+                "absolute left-0 top-3 h-0.5 w-4 transition-transform",
+                transparent ? "bg-white" : "bg-ink-800",
                 open && "-translate-y-[6px] -rotate-45"
               )}
             />
@@ -85,7 +122,7 @@ export function Navbar() {
       </div>
 
       {open && (
-        <div className="border-t border-ink-100 bg-white px-6 py-4 lg:hidden">
+        <div className="absolute inset-x-0 top-full border-t border-ink-100 bg-white px-6 py-4 shadow-lg lg:hidden">
           <nav className="flex flex-col gap-4">
             {LINKS.map((link) => (
               <Link

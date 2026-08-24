@@ -28,7 +28,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section id="home" className="relative isolate overflow-hidden bg-ink-900 scroll-mt-24">
+      <section id="home" className="relative isolate -mt-20 overflow-hidden bg-ink-900 scroll-mt-24">
         <Image
           src="/hero-truck.jpg"
           alt="Chavous Transportation tractor-trailer on the highway"
