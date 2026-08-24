@@ -15,7 +15,7 @@ export const DEFAULT_COMPANY_PROFILE: CompanyProfile = {
   mcNumber: "MC-1418287-C",
   phone: "+1 (513) 877-0111",
   email: "dispatch@chavousllc.com",
-  dispatchHours: "8:00 AM – 5:00 PM EST",
+  dispatchHours: "Mon - Fri, 8:00 AM – 5:00 PM EST",
   address: "1112 Harper Dr, Warminster, PA 18974",
   coverageStates: [
     "AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY",
