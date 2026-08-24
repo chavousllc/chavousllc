@@ -13,7 +13,7 @@ export const DEFAULT_COMPANY_PROFILE: CompanyProfile = {
   fleetSize: 35,
   dotNumber: "U.S. DOT# 3872584",
   mcNumber: "MC-1418287-C",
-  phone: "+1 (513) 988-7357",
+  phone: "+1 (513) 877-0111",
   email: "dispatch@chavousllc.com",
   dispatchHours: "8:00 AM – 5:00 PM EST",
   address: "1112 Harper Dr, Warminster, PA 18974",
