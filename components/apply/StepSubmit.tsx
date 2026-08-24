@@ -27,7 +27,7 @@ export function StepSubmit({ serverError }: { serverError: string | null }) {
         {...register("consentBackgroundCheck")}
       />
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <TextInput label="Signature (type full name)" required error={errors.signatureName?.message} {...register("signatureName")} />
+        <TextInput label="Signature (type full name)" placeholder="John Smith" required error={errors.signatureName?.message} {...register("signatureName")} />
         <TextInput label="Date" type="date" required error={errors.signatureDate?.message} {...register("signatureDate")} />
       </div>
       {serverError && <p className="mt-5 text-sm font-medium text-brand-600">{serverError}</p>}

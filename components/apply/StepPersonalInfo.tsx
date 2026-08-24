@@ -22,9 +22,9 @@ export function StepPersonalInfo() {
       <div>
         <SectionTitle>Applicant Information</SectionTitle>
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <TextInput label="Full Name" required error={errors.fullName?.message} {...register("fullName")} />
-          <TextInput label="Email" type="email" required error={errors.email?.message} {...register("email")} />
-          <TextInput label="Phone" type="tel" required error={errors.phone?.message} {...register("phone")} />
+          <TextInput label="Full Name" placeholder="John Smith" required error={errors.fullName?.message} {...register("fullName")} />
+          <TextInput label="Email" type="email" placeholder="john@example.com" required error={errors.email?.message} {...register("email")} />
+          <TextInput label="Phone" type="tel" placeholder="(555) 123-4567" required error={errors.phone?.message} {...register("phone")} />
           <TextInput
             label="Social Security Number"
             placeholder="123-45-6789"
@@ -33,8 +33,8 @@ export function StepPersonalInfo() {
             {...register("ssn")}
           />
           <TextInput label="Date of Birth" type="date" required error={errors.dateOfBirth?.message} {...register("dateOfBirth")} />
-          <TextInput label="Street Address" className="sm:col-span-2" required error={errors.address?.message} {...register("address")} />
-          <TextInput label="City" required error={errors.city?.message} {...register("city")} />
+          <TextInput label="Street Address" placeholder="123 Main St" className="sm:col-span-2" required error={errors.address?.message} {...register("address")} />
+          <TextInput label="City" placeholder="Warminster" required error={errors.city?.message} {...register("city")} />
           <Select label="State" required error={errors.state?.message} {...register("state")}>
             <option value="">Select a state</option>
             {US_STATES.map((s) => (
@@ -43,16 +43,16 @@ export function StepPersonalInfo() {
               </option>
             ))}
           </Select>
-          <TextInput label="ZIP" required error={errors.zip?.message} {...register("zip")} />
+          <TextInput label="ZIP" placeholder="18974" required error={errors.zip?.message} {...register("zip")} />
         </div>
       </div>
 
       <div>
         <SectionTitle>Position</SectionTitle>
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <TextInput label="Position Applied For" required error={errors.positionAppliedFor?.message} {...register("positionAppliedFor")} />
+          <TextInput label="Position Applied For" placeholder="Company Driver" required error={errors.positionAppliedFor?.message} {...register("positionAppliedFor")} />
           <TextInput label="Availability Date" type="date" required error={errors.availabilityDate?.message} {...register("availabilityDate")} />
-          <TextInput label="Desired Routes / Lanes" className="sm:col-span-2" required error={errors.desiredRoutes?.message} {...register("desiredRoutes")} />
+          <TextInput label="Desired Routes / Lanes" placeholder="Southeast regional, home weekly" className="sm:col-span-2" required error={errors.desiredRoutes?.message} {...register("desiredRoutes")} />
         </div>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-8">
           <Checkbox label="Willing to travel / run OTR" {...register("willingToTravel")} />

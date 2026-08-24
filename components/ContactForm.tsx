@@ -47,11 +47,12 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <TextInput label="Full Name" error={errors.name?.message} {...register("name")} />
-      <TextInput label="Email" type="email" error={errors.email?.message} {...register("email")} />
-      <TextInput label="Phone (optional)" type="tel" error={errors.phone?.message} {...register("phone")} />
+      <TextInput label="Full Name" placeholder="John Smith" error={errors.name?.message} {...register("name")} />
+      <TextInput label="Email" type="email" placeholder="john@example.com" error={errors.email?.message} {...register("email")} />
+      <TextInput label="Phone (optional)" type="tel" placeholder="(555) 123-4567" error={errors.phone?.message} {...register("phone")} />
       <TextArea
         label="How can we help?"
+        placeholder="Tell us about your shipment or question…"
         error={errors.message?.message}
         {...register("message")}
       />

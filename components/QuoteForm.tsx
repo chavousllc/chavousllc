@@ -57,10 +57,10 @@ export function QuoteForm() {
           Shipper Information
         </h3>
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <TextInput label="Company Name" required error={errors.shipperCompany?.message} {...register("shipperCompany")} />
-          <TextInput label="Contact Name" required error={errors.contactName?.message} {...register("contactName")} />
-          <TextInput label="Email" type="email" required error={errors.email?.message} {...register("email")} />
-          <TextInput label="Phone" type="tel" required error={errors.phone?.message} {...register("phone")} />
+          <TextInput label="Company Name" placeholder="Acme Logistics LLC" required error={errors.shipperCompany?.message} {...register("shipperCompany")} />
+          <TextInput label="Contact Name" placeholder="John Smith" required error={errors.contactName?.message} {...register("contactName")} />
+          <TextInput label="Email" type="email" placeholder="john@acmelogistics.com" required error={errors.email?.message} {...register("email")} />
+          <TextInput label="Phone" type="tel" placeholder="(555) 123-4567" required error={errors.phone?.message} {...register("phone")} />
         </div>
       </div>
 
@@ -69,7 +69,7 @@ export function QuoteForm() {
           Load Details
         </h3>
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <TextInput label="Origin City" required error={errors.originCity?.message} {...register("originCity")} />
+          <TextInput label="Origin City" placeholder="Dallas" required error={errors.originCity?.message} {...register("originCity")} />
           <Select label="Origin State" required error={errors.originState?.message} {...register("originState")}>
             <option value="">Select a state</option>
             {US_STATES.map((s) => (
@@ -78,7 +78,7 @@ export function QuoteForm() {
               </option>
             ))}
           </Select>
-          <TextInput label="Destination City" required error={errors.destCity?.message} {...register("destCity")} />
+          <TextInput label="Destination City" placeholder="Atlanta" required error={errors.destCity?.message} {...register("destCity")} />
           <Select label="Destination State" required error={errors.destState?.message} {...register("destState")}>
             <option value="">Select a state</option>
             {US_STATES.map((s) => (
@@ -88,7 +88,7 @@ export function QuoteForm() {
             ))}
           </Select>
           <TextInput label="Pickup Date" type="date" required error={errors.pickupDate?.message} {...register("pickupDate")} />
-          <TextInput label="Weight (lbs)" type="number" required error={errors.weight?.message} {...register("weight", { valueAsNumber: true })} />
+          <TextInput label="Weight (lbs)" type="number" placeholder="42000" required error={errors.weight?.message} {...register("weight", { valueAsNumber: true })} />
           <Select label="Equipment Type" required error={errors.equipmentType?.message} {...register("equipmentType")}>
             {EQUIPMENT_TYPES.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
@@ -100,8 +100,8 @@ export function QuoteForm() {
             ))}
           </Select>
         </div>
-        <TextInput label="Commodity" className="mt-5" required error={errors.commodity?.message} {...register("commodity")} />
-        <TextArea label="Additional Notes (optional)" className="mt-5" error={errors.notes?.message} {...register("notes")} />
+        <TextInput label="Commodity" placeholder="Palletized dry goods" className="mt-5" required error={errors.commodity?.message} {...register("commodity")} />
+        <TextArea label="Additional Notes (optional)" placeholder="Anything else we should know about this load?" className="mt-5" error={errors.notes?.message} {...register("notes")} />
       </div>
 
       {serverError && <p className="text-sm font-medium text-brand-600">{serverError}</p>}
