@@ -7,11 +7,19 @@ import {
   Mountain,
   Store,
   Wheat,
-  Mail,
   type LucideIcon,
 } from "lucide-react";
+import Image from "next/image";
+import clsx from "clsx";
 
-const PARTNERS: { name: string; icon: LucideIcon }[] = [
+type Partner = {
+  name: string;
+  icon?: LucideIcon;
+  logoSrc?: string;
+  href?: string;
+};
+
+const PARTNERS: Partner[] = [
   { name: "Northpoint Retail", icon: ShoppingBag },
   { name: "Cascade Foods Co.", icon: Apple },
   { name: "Meridian Manufacturing", icon: Factory },
@@ -20,18 +28,41 @@ const PARTNERS: { name: string; icon: LucideIcon }[] = [
   { name: "Summit Building Materials", icon: Mountain },
   { name: "Vantage Retail Group", icon: Store },
   { name: "Pinnacle Foods", icon: Wheat },
-  { name: "USPS", icon: Mail },
+  { name: "USPS", logoSrc: "/logos/usps.svg", href: "https://www.usps.com" },
 ];
 
-function PartnerLogo({ name, icon: Icon }: { name: string; icon: LucideIcon }) {
-  return (
-    <div className="flex shrink-0 items-center gap-2.5 px-6">
-      <Icon className="h-5 w-5 text-ink-300" strokeWidth={1.75} />
+function PartnerLogo({ name, icon: Icon, logoSrc, href }: Partner) {
+  const content = logoSrc ? (
+    <Image
+      src={logoSrc}
+      alt={name}
+      width={160}
+      height={27}
+      className="h-6 w-auto grayscale opacity-70 transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+    />
+  ) : (
+    <>
+      {Icon && <Icon className="h-5 w-5 text-ink-300" strokeWidth={1.75} />}
       <span className="whitespace-nowrap text-lg font-extrabold uppercase tracking-tight text-ink-300">
         {name}
       </span>
-    </div>
+    </>
   );
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={clsx("flex shrink-0 items-center gap-2.5 px-6")}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return <div className="flex shrink-0 items-center gap-2.5 px-6">{content}</div>;
 }
 
 export function TrustedByStrip() {
