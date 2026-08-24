@@ -76,14 +76,17 @@ export function Footer({ profile }: { profile: CompanyProfile }) {
             &copy; {new Date().getFullYear()} {profile.companyName}. All
             rights reserved.
           </p>
-          <a
-            href="https://lazizjonalimov.github.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-ink-300"
-          >
-            Powered by: Alimoff
-          </a>
+          <p>
+            Powered by:{" "}
+            <a
+              href="https://lazizjonalimov.github.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ink-300 hover:text-white"
+            >
+              Alimoff
+            </a>
+          </p>
         </div>
       </div>
     </footer>
