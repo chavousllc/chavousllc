@@ -84,7 +84,7 @@ export function Footer({ profile }: { profile: CompanyProfile }) {
               rel="noopener noreferrer"
               className="text-ink-300 hover:text-white"
             >
-              Alimoff
+              Lazizjon Alimov
             </a>
           </p>
         </div>
