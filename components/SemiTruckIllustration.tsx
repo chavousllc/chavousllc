@@ -67,7 +67,7 @@ export function SemiTruckIllustration({ className }: { className?: string }) {
           <rect key={y} x="577" y={y} width="6" height="5" rx="1.5" fill="#a1a1aa" />
         ))}
 
-        {/* kingpin / fifth-wheel coupling between tractor and trailer */}
+        {/* kingpin / fifth-wheel coupling, sits over the tractor's drive tandem */}
         <rect x="238" y="206" width="30" height="9" rx="2" fill="#52525b" />
 
         {/* frame rail — spans the underbody from the coupling back to the tandem, so the trailer reads as one connected chassis instead of floating */}
@@ -79,35 +79,41 @@ export function SemiTruckIllustration({ className }: { className?: string }) {
         {/* mudflap trailing the rear tandem axle */}
         <rect x="526" y="248" width="16" height="20" rx="2" fill="#27272a" opacity="0.85" />
 
-        {/* exhaust stack, anchored to the back of the cab roofline */}
-        <rect x="243" y="58" width="10" height="74" rx="3" fill="#71717a" />
-        <rect x="241" y="54" width="14" height="8" rx="2" fill="#52525b" />
+        {/* exhaust stack, anchored behind the sleeper roofline */}
+        <rect x="238" y="62" width="10" height="42" rx="3" fill="#71717a" />
+        <rect x="236" y="58" width="14" height="8" rx="2" fill="#52525b" />
 
-        {/* cab */}
-        <path d="M150 130 H255 V225 H150 Z" fill="#dc2626" />
-        <path
-          d="M150 130 C150 130 168 96 205 96 H225 C238 96 248 106 248 119 V130 Z"
-          fill="#dc2626"
-        />
-        {/* windshield */}
-        <path
-          d="M188 108 C202 101 214 100 224 100 C232 100 238 105 239 113 L240 128 H188 Z"
-          fill="#bfe3f7"
-          opacity="0.9"
-        />
+        {/* cab — upright sleeper box at the back */}
+        <rect x="205" y="100" width="50" height="125" rx="4" fill="#dc2626" />
+
+        {/* hood — long sloped nose typical of a conventional tractor */}
+        <path d="M205 140 H150 L100 160 L92 225 H205 Z" fill="#dc2626" />
+
+        {/* windshield, raked forward from the roofline down to the hood */}
+        <path d="M205 104 H168 L150 138 H205 Z" fill="#bfe3f7" opacity="0.9" />
+
+        {/* side mirror */}
+        <line x1="208" y1="108" x2="198" y2="94" stroke="#3f3f46" strokeWidth="3" strokeLinecap="round" />
+        <rect x="189" y="88" width="12" height="16" rx="3" fill="#27272a" />
+
         {/* door line + handle */}
-        <line x1="205" y1="130" x2="205" y2="200" stroke="#991b1b" strokeWidth="2" />
-        <rect x="212" y="160" width="14" height="4" rx="2" fill="#fecaca" />
-        {/* fuel tank, tucked along the lower cab body */}
-        <rect x="168" y="197" width="52" height="20" rx="10" fill="#a1a1aa" />
-        <circle cx="168" cy="207" r="10" fill="#71717a" />
+        <line x1="215" y1="140" x2="215" y2="225" stroke="#991b1b" strokeWidth="2" />
+        <rect x="221" y="175" width="14" height="4" rx="2" fill="#fecaca" />
+
+        {/* fuel tank, mounted along the frame below the cab */}
+        <rect x="205" y="197" width="50" height="20" rx="10" fill="#a1a1aa" />
+        <circle cx="205" cy="207" r="10" fill="#71717a" />
+
         {/* front bumper + headlight */}
-        <rect x="141" y="195" width="11" height="30" rx="3" fill="#27272a" />
-        <circle cx="146.5" cy="177" r="7" fill="#fef08a" />
+        <rect x="80" y="195" width="14" height="30" rx="3" fill="#27272a" />
+        <circle cx="95" cy="178" r="6" fill="#fef08a" />
+
+        {/* grille accent line along the hood slope */}
+        <line x1="96" y1="168" x2="108" y2="225" stroke="#f4a5a5" strokeWidth="1.5" opacity="0.6" />
       </g>
 
-      {/* wheels — spin in place, stay grounded independent of the body bounce */}
-      {[225, 470, 520].map((cx) => (
+      {/* wheels — steer axle, drive tandem, and trailer tandem; spin in place, stay grounded independent of the body bounce */}
+      {[120, 205, 255, 470, 520].map((cx) => (
         <g key={cx} className="truck-wheel" style={{ transformOrigin: `${cx}px 230px` }}>
           <circle cx={cx} cy="230" r="24" fill="#18181b" />
           <circle cx={cx} cy="230" r="3.5" fill="#3f3f46" />
