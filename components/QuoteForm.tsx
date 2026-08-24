@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2 } from "lucide-react";
 import { TextInput, TextArea, Select } from "@/components/form/inputs";
 import { quoteSchema, type QuoteInput, EQUIPMENT_TYPES, LOAD_TYPES } from "@/lib/schemas";
+import { US_STATES } from "@/lib/us-states";
 import { submitQuoteRequest } from "@/actions/quote";
 
 export function QuoteForm() {
@@ -56,10 +57,10 @@ export function QuoteForm() {
           Shipper Information
         </h3>
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <TextInput label="Company Name" error={errors.shipperCompany?.message} {...register("shipperCompany")} />
-          <TextInput label="Contact Name" error={errors.contactName?.message} {...register("contactName")} />
-          <TextInput label="Email" type="email" error={errors.email?.message} {...register("email")} />
-          <TextInput label="Phone" type="tel" error={errors.phone?.message} {...register("phone")} />
+          <TextInput label="Company Name" required error={errors.shipperCompany?.message} {...register("shipperCompany")} />
+          <TextInput label="Contact Name" required error={errors.contactName?.message} {...register("contactName")} />
+          <TextInput label="Email" type="email" required error={errors.email?.message} {...register("email")} />
+          <TextInput label="Phone" type="tel" required error={errors.phone?.message} {...register("phone")} />
         </div>
       </div>
 
@@ -68,24 +69,38 @@ export function QuoteForm() {
           Load Details
         </h3>
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <TextInput label="Origin City" error={errors.originCity?.message} {...register("originCity")} />
-          <TextInput label="Origin State" placeholder="TX" maxLength={2} error={errors.originState?.message} {...register("originState")} />
-          <TextInput label="Destination City" error={errors.destCity?.message} {...register("destCity")} />
-          <TextInput label="Destination State" placeholder="CA" maxLength={2} error={errors.destState?.message} {...register("destState")} />
-          <TextInput label="Pickup Date" type="date" error={errors.pickupDate?.message} {...register("pickupDate")} />
-          <TextInput label="Weight (lbs)" type="number" error={errors.weight?.message} {...register("weight", { valueAsNumber: true })} />
-          <Select label="Equipment Type" error={errors.equipmentType?.message} {...register("equipmentType")}>
+          <TextInput label="Origin City" required error={errors.originCity?.message} {...register("originCity")} />
+          <Select label="Origin State" required error={errors.originState?.message} {...register("originState")}>
+            <option value="">Select a state</option>
+            {US_STATES.map((s) => (
+              <option key={s.abbr} value={s.abbr}>
+                {s.name}
+              </option>
+            ))}
+          </Select>
+          <TextInput label="Destination City" required error={errors.destCity?.message} {...register("destCity")} />
+          <Select label="Destination State" required error={errors.destState?.message} {...register("destState")}>
+            <option value="">Select a state</option>
+            {US_STATES.map((s) => (
+              <option key={s.abbr} value={s.abbr}>
+                {s.name}
+              </option>
+            ))}
+          </Select>
+          <TextInput label="Pickup Date" type="date" required error={errors.pickupDate?.message} {...register("pickupDate")} />
+          <TextInput label="Weight (lbs)" type="number" required error={errors.weight?.message} {...register("weight", { valueAsNumber: true })} />
+          <Select label="Equipment Type" required error={errors.equipmentType?.message} {...register("equipmentType")}>
             {EQUIPMENT_TYPES.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
             ))}
           </Select>
-          <Select label="Load Type" error={errors.loadType?.message} {...register("loadType")}>
+          <Select label="Load Type" required error={errors.loadType?.message} {...register("loadType")}>
             {LOAD_TYPES.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
             ))}
           </Select>
         </div>
-        <TextInput label="Commodity" className="mt-5" error={errors.commodity?.message} {...register("commodity")} />
+        <TextInput label="Commodity" className="mt-5" required error={errors.commodity?.message} {...register("commodity")} />
         <TextArea label="Additional Notes (optional)" className="mt-5" error={errors.notes?.message} {...register("notes")} />
       </div>
 
