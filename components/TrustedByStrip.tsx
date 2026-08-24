@@ -35,7 +35,7 @@ function PartnerLogo({ name, icon: Icon }: { name: string; icon: LucideIcon }) {
 export function TrustedByStrip() {
   return (
     <section className="border-y border-ink-100 bg-white py-10">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-[90rem] px-6 lg:px-8">
         <p className="text-center text-xs font-semibold uppercase tracking-wide text-ink-400">
           Trusted by shippers across the country
         </p>

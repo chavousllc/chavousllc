@@ -6,7 +6,7 @@ import type { CompanyProfile } from "@prisma/client";
 export function Footer({ profile }: { profile: CompanyProfile }) {
   return (
     <footer className="border-t border-ink-100 bg-ink-900 text-ink-300">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div>
           <Logo className="[&_span]:text-white [&_span_span]:text-brand-400" />
           <p className="mt-4 text-sm leading-relaxed text-ink-400">
@@ -64,7 +64,7 @@ export function Footer({ profile }: { profile: CompanyProfile }) {
       </div>
 
       <div className="border-t border-ink-800">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-ink-500 sm:flex-row lg:px-8">
+        <div className="mx-auto flex max-w-[90rem] flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-ink-500 sm:flex-row lg:px-8">
           <p>
             &copy; {new Date().getFullYear()} {profile.companyName}. All
             rights reserved.
