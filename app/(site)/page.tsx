@@ -29,6 +29,7 @@ export default async function HomePage() {
   return (
     <>
       <section id="home" className="relative isolate -mt-20 overflow-hidden bg-ink-900 scroll-mt-24">
+        <div id="home-hero-sentinel" aria-hidden className="absolute inset-x-0 top-20 h-px" />
         <Image
           src="/hero-truck.jpg"
           alt="Chavous Transportation tractor-trailer on the highway"
