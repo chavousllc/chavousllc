@@ -7,6 +7,7 @@ import {
   Mountain,
   Store,
   Wheat,
+  Mail,
   type LucideIcon,
 } from "lucide-react";
 
@@ -19,6 +20,7 @@ const PARTNERS: { name: string; icon: LucideIcon }[] = [
   { name: "Summit Building Materials", icon: Mountain },
   { name: "Vantage Retail Group", icon: Store },
   { name: "Pinnacle Foods", icon: Wheat },
+  { name: "USPS", icon: Mail },
 ];
 
 function PartnerLogo({ name, icon: Icon }: { name: string; icon: LucideIcon }) {
