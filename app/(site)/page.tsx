@@ -37,8 +37,8 @@ export default async function HomePage() {
           sizes="100vw"
           className="object-cover object-[65%_center]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-900/88 via-ink-900/70 to-ink-900/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/8 to-transparent" />
 
         <Container className="relative py-24 lg:py-32">
           <div className="max-w-2xl">
