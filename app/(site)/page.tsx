@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Truck, ShieldCheck, MapPin } from "lucide-react";
 import { Container } from "@/components/Container";
-import { HeroVisual } from "@/components/HeroVisual";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Reveal } from "@/components/Reveal";
 import { CTASection } from "@/components/CTASection";
@@ -18,18 +18,37 @@ export default async function HomePage() {
     getServices(),
   ]);
 
+  const yearsInBusiness = new Date().getFullYear() - profile.foundingYear;
+
+  const heroStats = [
+    { icon: Truck, value: `${profile.fleetSize}+`, label: "Trucks in fleet" },
+    { icon: ShieldCheck, value: `${yearsInBusiness}+ yrs`, label: "Safety track record" },
+    { icon: MapPin, value: "48", label: "States served" },
+  ];
+
   return (
     <>
-      <section id="home" className="overflow-hidden bg-ink-50/60 scroll-mt-24">
-        <Container className="grid grid-cols-1 items-center gap-16 py-16 lg:grid-cols-2 lg:py-24">
-          <div>
-            <p className="inline-flex items-center rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-brand-700">
+      <section id="home" className="relative isolate overflow-hidden bg-ink-900 scroll-mt-24">
+        <Image
+          src="/hero-truck.jpg"
+          alt="Chavous Transportation tractor-trailer on the highway"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[65%_center]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/10 to-transparent" />
+
+        <Container className="relative py-24 lg:py-32">
+          <div className="max-w-2xl">
+            <p className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur-sm ring-1 ring-white/20">
               Serving all 48 continental states
             </p>
-            <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-ink-900 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
               {profile.heroHeadline}
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-500">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-200">
               {profile.heroSubtext}
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -42,18 +61,30 @@ export default async function HomePage() {
               </Link>
               <Link
                 href="/apply"
-                className="btn-press inline-flex items-center gap-2 rounded-full border border-ink-200 px-6 py-3.5 text-sm font-semibold text-ink-800 transition-colors hover:border-brand-600 hover:text-brand-600"
+                className="btn-press inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:border-white"
               >
                 Apply to Drive
               </Link>
             </div>
           </div>
 
-          <div className="mx-auto w-full max-w-md pt-6 lg:pt-0">
-            <HeroVisual
-              fleetSize={profile.fleetSize}
-              foundingYear={profile.foundingYear}
-            />
+          <div className="mt-16 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
+            {heroStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="flex items-center gap-3 rounded-2xl bg-white/10 px-5 py-4 backdrop-blur-sm ring-1 ring-white/20"
+              >
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/15">
+                  <stat.icon className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-lg font-extrabold leading-none text-white">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs font-medium text-ink-200">{stat.label}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </Container>
       </section>
