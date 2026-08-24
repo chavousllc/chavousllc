@@ -13,6 +13,13 @@ export function Footer({ profile }: { profile: CompanyProfile }) {
             Freight transportation across the continental United States —
             reliable, safe, and on time.
           </p>
+          <div className="mt-4 flex flex-col gap-1 text-xs text-ink-500">
+            <span>{profile.dotNumber}</span>
+            <span>{profile.mcNumber}</span>
+            <Link href="/admin/login" className="hover:text-ink-300">
+              Admin
+            </Link>
+          </div>
         </div>
 
         <div>
@@ -69,13 +76,14 @@ export function Footer({ profile }: { profile: CompanyProfile }) {
             &copy; {new Date().getFullYear()} {profile.companyName}. All
             rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <span>{profile.dotNumber}</span>
-            <span>{profile.mcNumber}</span>
-            <Link href="/admin/login" className="hover:text-ink-300">
-              Admin
-            </Link>
-          </div>
+          <a
+            href="https://lazizjonalimov.github.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-ink-300"
+          >
+            Powered by: Alimoff
+          </a>
         </div>
       </div>
     </footer>
