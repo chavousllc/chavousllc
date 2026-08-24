@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     "Learn about Chavous Transportation LLC's fleet, history, and safety-first approach to freight trucking.",
 };
 
+export const revalidate = 60;
+
 export default async function AboutPage() {
   const profile = await getCompanyProfile();
   const years = new Date().getFullYear() - profile.foundingYear;

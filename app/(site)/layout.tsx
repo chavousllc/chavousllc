@@ -3,6 +3,8 @@ import { Footer } from "@/components/Footer";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { getCompanyProfile } from "@/lib/content";
 
+export const revalidate = 60;
+
 export default async function SiteLayout({
   children,
 }: {

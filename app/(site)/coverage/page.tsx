@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     "See the states and regions Chavous Transportation LLC serves across the continental United States.",
 };
 
+export const revalidate = 60;
+
 export default async function CoveragePage() {
   const profile = await getCompanyProfile();
   const coveredNames = Object.values(FIPS_TO_STATE)

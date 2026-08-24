@@ -10,6 +10,8 @@ import { SafetyShowcase } from "@/components/SafetyShowcase";
 import { ContactSection } from "@/components/ContactSection";
 import { getCompanyProfile, getServices } from "@/lib/content";
 
+export const revalidate = 60;
+
 export default async function HomePage() {
   const [profile, services] = await Promise.all([
     getCompanyProfile(),
