@@ -31,11 +31,11 @@ export default async function HomePage() {
       <section id="home" className="relative isolate overflow-hidden bg-ink-900 scroll-mt-24">
         <Image
           src="/hero-truck.jpg"
-          alt="Chavous Transportation tractor-trailer on a mountain highway"
+          alt="Chavous Transportation tractor-trailer on the highway"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[42%_center]"
+          className="object-cover object-[65%_center]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/10 to-transparent" />
